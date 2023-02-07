@@ -1,11 +1,13 @@
-import { type FastifyInstance } from 'fastify'
+import { Router } from 'express'
 
 import { userRoutes } from './user-routes'
 import { sessionRoutes } from './session-routes'
 import { bookRoutes } from './book-routes'
 
-export async function appRoutes(app: FastifyInstance): Promise<void> {
-  app.register(userRoutes, { prefix: '/users' })
-  app.register(sessionRoutes, { prefix: '/sessions' })
-  app.register(bookRoutes, { prefix: '/books' })
-}
+const appRoutes = Router()
+
+appRoutes.use('/users', userRoutes)
+appRoutes.use('/sessions', sessionRoutes)
+appRoutes.use('/books', bookRoutes)
+
+export { appRoutes }

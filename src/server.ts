@@ -1,36 +1,32 @@
+import 'express-async-errors'
 import 'reflect-metadata'
 
 import '@config/env'
 import '@shared/container'
 
-import Fastify, { type FastifyInstance } from 'fastify'
+import express from 'express'
 
-import fastifyCors from '@fastify/cors'
+import cors from 'cors'
 
 import { PORT } from '@config/env/app'
 
 import { appRoutes } from '@infra/http/routes'
 import { errorHandler } from '@infra/http/middlewares/error-handler'
-import { serveStaticFiles } from '@infra/http/middlewares/serve-static-files'
-
-import multer from 'fastify-multer'
+import { staticFileRouter } from '@infra/http/middlewares/serve-static-files'
 
 async function bootstrap(): Promise<void> {
-  const app: FastifyInstance = Fastify({})
+  const app = express()
   const port = PORT
 
-  app.register(fastifyCors)
+  app.use(cors())
+  app.use(express.json())
 
-  app.setErrorHandler(errorHandler)
-  app.register(serveStaticFiles)
+  app.use(staticFileRouter)
+  app.use('/api/v1', appRoutes)
 
-  app.register(multer.contentParser)
+  app.use(errorHandler)
 
-  app.register(appRoutes, {
-    prefix: '/api/v1'
-  })
-
-  app.listen({ port }, () => {
+  app.listen(port, () => {
     console.log(`HTTP Server running at ${port}!`)
   })
 }

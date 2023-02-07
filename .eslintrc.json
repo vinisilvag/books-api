@@ -23,6 +23,7 @@
     "@typescript-eslint/prefer-nullish-coalescing": "off",
     "@typescript-eslint/no-extraneous-class": "off",
     "@typescript-eslint/no-throw-literal": "off",
-    "@typescript-eslint/restrict-template-expressions": "off"
+    "@typescript-eslint/restrict-template-expressions": "off",
+    "@typescript-eslint/no-misused-promises": "off"
   }
 }

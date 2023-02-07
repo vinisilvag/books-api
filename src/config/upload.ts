@@ -1,4 +1,4 @@
-import multer from 'fastify-multer'
+import multer, { type Options } from 'multer'
 
 import { resolve } from 'node:path'
 import { randomBytes } from 'node:crypto'
@@ -6,7 +6,7 @@ import { randomBytes } from 'node:crypto'
 import { Slugify } from '@helpers/slugify'
 
 export const uploadConfig = {
-  upload(folder: string = 'uploads') {
+  upload(folder: string = 'uploads'): Options {
     return {
       storage: multer.diskStorage({
         destination: resolve(__dirname, '..', '..', folder),

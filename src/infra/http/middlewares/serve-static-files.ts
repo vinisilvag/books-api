@@ -1,11 +1,11 @@
+import express, { Router } from 'express'
 import { resolve } from 'node:path'
 
-import { type FastifyInstance } from 'fastify'
-import fastifyStatic from '@fastify/static'
+const staticFileRouter = Router()
 
-export async function serveStaticFiles(app: FastifyInstance): Promise<void> {
-  app.register(fastifyStatic, {
-    root: resolve(__dirname, '..', '..', '..', '..', 'uploads'),
-    prefix: '/uploads/'
-  })
-}
+staticFileRouter.use(
+  '/uploads',
+  express.static(resolve(__dirname, '..', '..', '..', '..', 'uploads'))
+)
+
+export { staticFileRouter }

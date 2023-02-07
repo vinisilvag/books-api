@@ -1,6 +1,6 @@
 import { container } from 'tsyringe'
 
-import { type FastifyRequest } from 'fastify'
+import { type Request, type Response } from 'express'
 
 import { GetBooks } from '@application/use-cases/books/get-books'
 import { ShowBook } from '@application/use-cases/books/show-book'
@@ -12,24 +12,25 @@ import { BookViewModel } from '../view-models/book-view-model'
 import { CreateBook } from '@application/use-cases/books/create-book'
 
 export class BookController {
-  async index(request: FastifyRequest): Promise<any> {
+  async index(request: Request, response: Response): Promise<any> {
     const getBooks = container.resolve(GetBooks)
     const { books } = await getBooks.execute()
 
-    return { books: books.map(book => BookViewModel.toHTTP(book)) }
+    return response
+      .status(200)
+      .json({ books: books.map(book => BookViewModel.toHTTP(book)) })
   }
 
-  async show(request: FastifyRequest): Promise<any> {
+  async show(request: Request, response: Response): Promise<any> {
     const { slug } = showBookParams.parse(request.params)
 
     const showBook = container.resolve(ShowBook)
     const { book } = await showBook.execute({ slug })
 
-    return { book: BookViewModel.toHTTP(book) }
+    return response.status(200).json({ book: BookViewModel.toHTTP(book) })
   }
 
-  // fix create error
-  async create(request: FastifyRequest): Promise<any> {
+  async create(request: Request, response: Response): Promise<any> {
     const {
       title,
       author,
@@ -37,20 +38,24 @@ export class BookController {
       publishingYear,
       numberOfPages,
       synopsis
-    } = createBookBody.parse(request.body)
-    const cover = request.file.filename
+    } = createBookBody.parse({
+      ...request.body,
+      publishingYear: Number(request.body.publishingYear),
+      numberOfPages: Number(request.body.numberOfPages)
+    })
+    const cover = request.file?.filename || null
 
     const createBook = container.resolve(CreateBook)
     const { book } = await createBook.execute({
       title,
       author,
-      cover: cover || null,
+      cover,
       publishingCompany,
       publishingYear,
       numberOfPages,
       synopsis
     })
 
-    return { book: BookViewModel.toHTTP(book) }
+    return response.status(201).json({ book: BookViewModel.toHTTP(book) })
   }
 }

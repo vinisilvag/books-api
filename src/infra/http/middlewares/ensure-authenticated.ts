@@ -1,8 +1,4 @@
-import {
-  type FastifyRequest,
-  type FastifyReply,
-  type HookHandlerDoneFunction
-} from 'fastify'
+import { type Request, type Response, type NextFunction } from 'express'
 
 import { verify } from 'jsonwebtoken'
 import { SECRET } from '@config/env/auth'
@@ -17,9 +13,9 @@ interface TokenPayload {
 }
 
 export async function ensureAuthenticated(
-  request: FastifyRequest,
-  response: FastifyReply,
-  done: HookHandlerDoneFunction
+  request: Request,
+  response: Response,
+  next: NextFunction
 ): Promise<void> {
   const authHeader = request.headers.authorization
 
@@ -36,8 +32,9 @@ export async function ensureAuthenticated(
     request.user = {
       uid
     }
+
+    next()
   } catch (err) {
-    console.log(err)
     throw new InvalidJwt()
   }
 }

@@ -1,30 +1,28 @@
-import { type FastifyInstance } from 'fastify'
+import { Router } from 'express'
 
 import { UserController } from '@infra/http/controllers/user-controller'
 
 import { ensureAuthenticated } from '../middlewares/ensure-authenticated'
 
-import multer from 'fastify-multer'
+import multer from 'multer'
 import { uploadConfig } from '@config/upload'
+
+const userRoutes = Router()
 
 const userController = new UserController()
 const uploadAvatar = multer(uploadConfig.upload('uploads/avatar'))
 
-export async function userRoutes(app: FastifyInstance): Promise<void> {
-  app.post(
-    '/',
-    { preHandler: [uploadAvatar.single('avatar')] },
-    userController.create
-  )
-  app.patch(
-    '/avatar',
-    { preHandler: [ensureAuthenticated, uploadAvatar.single('avatar')] },
-    userController.updateAvatar
-  )
-  app.patch(
-    '/avatar/remove',
-    { preHandler: [ensureAuthenticated] },
-    userController.removeAvatar
-  )
-  app.delete('/', { preHandler: [ensureAuthenticated] }, userController.delete)
-}
+userRoutes.post('/', uploadAvatar.single('avatar'), userController.create)
+userRoutes.patch(
+  '/avatar',
+  [ensureAuthenticated, uploadAvatar.single('avatar')],
+  userController.updateAvatar
+)
+userRoutes.patch(
+  '/avatar/remove',
+  [ensureAuthenticated, uploadAvatar.single('avatar')],
+  userController.removeAvatar
+)
+userRoutes.delete('/', ensureAuthenticated, userController.delete)
+
+export { userRoutes }

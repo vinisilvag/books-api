@@ -10,7 +10,7 @@ import { deleteFile } from '@helpers/delete-file'
 
 interface UpdateUserAvatarRequest {
   userId: string
-  avatar: string
+  avatar: string | null
 }
 
 interface UpdateUserAvatarResponse {
