@@ -4,13 +4,15 @@ import { AuthenticateUser } from './authenticate-user'
 import { CreateUser } from '../users/create-user'
 
 import { InMemoryUsersRepository } from '@tests/repositories/in-memory-users-repository'
+import { FakeMailProvider } from '@tests/providers/fake-mail-provider'
 
 import { faker } from '@faker-js/faker'
 
-describe('Authenticate user', () => {
+describe('Authenticate User', () => {
   it('should be able to authenticate an existing user', async () => {
     const usersRepository = new InMemoryUsersRepository()
-    const createUser = new CreateUser(usersRepository)
+    const mailProvider = new FakeMailProvider()
+    const createUser = new CreateUser(usersRepository, mailProvider)
     const authenticateUser = new AuthenticateUser(usersRepository)
 
     await createUser.execute({
@@ -19,17 +21,19 @@ describe('Authenticate user', () => {
       password: '123456'
     })
 
-    const { token } = await authenticateUser.execute({
+    const { token, user } = await authenticateUser.execute({
       email: 'fake@mail.com',
       password: '123456'
     })
 
     expect(token).toBeTruthy()
+    expect(user).toBeTruthy()
   })
 
   it('should not be able to authenticate with invalid credentials', async () => {
     const usersRepository = new InMemoryUsersRepository()
-    const createUser = new CreateUser(usersRepository)
+    const mailProvider = new FakeMailProvider()
+    const createUser = new CreateUser(usersRepository, mailProvider)
     const authenticateUser = new AuthenticateUser(usersRepository)
 
     await createUser.execute({

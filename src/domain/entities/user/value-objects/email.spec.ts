@@ -4,7 +4,7 @@ import { Email } from './email'
 
 import { faker } from '@faker-js/faker'
 
-describe('User email', () => {
+describe('User Email', () => {
   it('should be able to create an valid user email', () => {
     const email = new Email(faker.internet.email())
 

@@ -1,9 +1,13 @@
+import { inject as Inject, injectable as Injectable } from 'tsyringe'
+
 import { Book } from '@domain/entities/book/book'
 import { Synopsis } from '@domain/entities/book/value-objects/synopsis'
 
 import { type BooksRepository } from '@application/repositories/books-repository'
 
-import { Slugify } from '@helpers/Slugify'
+import { BookAlreadyExists } from '@application/errors/books/book-already-exists'
+
+import { Slugify } from '@helpers/slugify'
 
 interface CreateBookRequest {
   title: string
@@ -19,8 +23,12 @@ interface CreateBookResponse {
   book: Book
 }
 
+@Injectable()
 export class CreateBook {
-  constructor(private readonly booksRepository: BooksRepository) {}
+  constructor(
+    @Inject('BooksRepository')
+    private readonly booksRepository: BooksRepository
+  ) {}
 
   async execute(request: CreateBookRequest): Promise<CreateBookResponse> {
     const {
@@ -38,7 +46,7 @@ export class CreateBook {
     const bookExists = await this.booksRepository.findBySlug(slug)
 
     if (bookExists) {
-      throw new Error('Book already exists.')
+      throw new BookAlreadyExists()
     }
 
     const book = new Book({

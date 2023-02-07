@@ -4,10 +4,10 @@ import { CreateBook } from './create-book'
 
 import { InMemoryBooksRepository } from '@tests/repositories/in-memory-books-repository'
 
-import { faker } from '@faker-js/faker'
 import { makeBook } from '@tests/factories/book-factory'
+import { faker } from '@faker-js/faker'
 
-describe('Create book', () => {
+describe('Create Book', () => {
   it('should be able to create a book', async () => {
     const booksRepository = new InMemoryBooksRepository()
     const createBook = new CreateBook(booksRepository)

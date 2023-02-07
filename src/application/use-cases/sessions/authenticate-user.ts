@@ -1,9 +1,16 @@
+import { inject as Inject, injectable as Injectable } from 'tsyringe'
+
+import { type User } from '@domain/entities/user/user'
+
 import { type UsersRepository } from '@application/repositories/users-repository'
+
+import { UserNotFound } from '@application/errors/users/user-not-found'
 
 import { compare } from 'bcrypt'
 import { sign } from 'jsonwebtoken'
-
 import { SECRET } from '@config/auth'
+
+import { InvalidCredentials } from '@application/errors/sessions/invalid-credentials'
 
 interface AuthenticateUserRequest {
   email: string
@@ -12,10 +19,15 @@ interface AuthenticateUserRequest {
 
 interface AuthenticateUserResponse {
   token: string
+  user: User
 }
 
+@Injectable()
 export class AuthenticateUser {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(
+    @Inject('UsersRepository')
+    private readonly usersRepository: UsersRepository
+  ) {}
 
   async execute(
     request: AuthenticateUserRequest
@@ -25,17 +37,17 @@ export class AuthenticateUser {
     const user = await this.usersRepository.findByEmail(email)
 
     if (!user) {
-      throw new Error('User not found.')
+      throw new UserNotFound()
     }
 
     const passwordMatch = await compare(password, user.password)
 
     if (!passwordMatch) {
-      throw new Error('Invalid email/password combination.')
+      throw new InvalidCredentials()
     }
 
     const token = sign({ uid: user.id }, SECRET, { expiresIn: '1d' })
 
-    return { token }
+    return { token, user }
   }
 }

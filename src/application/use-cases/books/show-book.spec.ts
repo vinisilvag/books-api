@@ -5,7 +5,7 @@ import { InMemoryBooksRepository } from '@tests/repositories/in-memory-books-rep
 
 import { makeBook } from '@tests/factories/book-factory'
 
-describe('Show book', () => {
+describe('Show Book', () => {
   it('should be able show a book based on the book slug', async () => {
     const booksRepository = new InMemoryBooksRepository()
     const showBook = new ShowBook(booksRepository)

@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/indent */
-import { Entity } from '@core/domain/Entity'
+import { Entity } from '@core/domain/entity'
 
 import { type Synopsis } from './value-objects/synopsis'
 
-import { type Replace } from '@core/logic/Replace'
+import { type Replace } from '@core/logic/replace'
 
-import { Slugify } from '@helpers/Slugify'
+import { Slugify } from '@helpers/slugify'
 
 export interface BookProps {
   title: string
@@ -45,6 +45,10 @@ export class Book extends Entity<BookProps> {
 
   public get title(): string {
     return this.props.title
+  }
+
+  public get slug(): string {
+    return this.props.slug
   }
 
   // title setter?

@@ -4,7 +4,7 @@ import { Synopsis } from './synopsis'
 
 import { faker } from '@faker-js/faker'
 
-describe('Book synopsis', () => {
+describe('Book Synopsis', () => {
   it('should be able to create a valid book synopsis', () => {
     const synopsis = new Synopsis(faker.lorem.paragraph())
 

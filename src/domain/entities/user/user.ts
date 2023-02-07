@@ -1,8 +1,8 @@
-import { Entity } from '@core/domain/Entity'
+import { Entity } from '@core/domain/entity'
 
 import { type Email } from './value-objects/email'
 
-import { type Replace } from '@core/logic/Replace'
+import { type Replace } from '@core/logic/replace'
 
 export interface UserProps {
   name: string
