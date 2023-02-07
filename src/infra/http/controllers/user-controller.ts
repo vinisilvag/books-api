@@ -5,7 +5,7 @@ import { type FastifyRequest } from 'fastify'
 import { CreateUser } from '@application/use-cases/users/create-user'
 import { createUserBody } from '../dtos/users/create-user-body'
 
-import { UserViewModel } from '../view-models/users-view-model'
+import { UserViewModel } from '../view-models/user-view-model'
 
 export class UserController {
   async create(request: FastifyRequest): Promise<any> {

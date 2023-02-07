@@ -31,7 +31,7 @@ export class PrismaBookMapper {
         publishingCompany: raw.publishingCompany,
         publishingYear: raw.publishingYear,
         numberOfPages: raw.numberOfPages,
-        synopsis: new Synopsis(raw.synopsis.value),
+        synopsis: new Synopsis(raw.synopsis),
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt
       },

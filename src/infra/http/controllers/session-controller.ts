@@ -5,7 +5,7 @@ import { type FastifyRequest } from 'fastify'
 import { AuthenticateUser } from '@application/use-cases/sessions/authenticate-user'
 import { authenticateUserBody } from '../dtos/sessions/authenticate-user-body'
 
-import { UserViewModel } from '../view-models/users-view-model'
+import { UserViewModel } from '../view-models/user-view-model'
 
 export class SessionController {
   async authenticate(request: FastifyRequest): Promise<any> {

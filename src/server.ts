@@ -1,7 +1,6 @@
 import 'reflect-metadata'
 
 import '@config/env'
-
 import '@shared/container'
 
 import Fastify, { type FastifyInstance } from 'fastify'
