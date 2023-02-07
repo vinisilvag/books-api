@@ -3,6 +3,7 @@ import { Router } from 'express'
 import { BookController } from '../controllers/book-controller'
 
 import { ensureAuthenticated } from '@infra/http/middlewares/ensure-authenticated'
+import { ensureAuthorizated } from '@infra/http/middlewares/ensure-authorizated'
 
 import multer from 'multer'
 import { uploadConfig } from '@config/upload'
@@ -16,9 +17,13 @@ bookRoutes.get('/', ensureAuthenticated, bookController.index)
 bookRoutes.get('/:slug', ensureAuthenticated, bookController.show)
 bookRoutes.post(
   '/',
-  [ensureAuthenticated, uploadCover.single('cover')],
+  [ensureAuthenticated, ensureAuthorizated, uploadCover.single('cover')],
   bookController.create
 )
-bookRoutes.delete('/:bookId', ensureAuthenticated, bookController.delete)
+bookRoutes.delete(
+  '/:bookId',
+  [ensureAuthenticated, ensureAuthorizated],
+  bookController.delete
+)
 
 export { bookRoutes }

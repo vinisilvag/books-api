@@ -6,6 +6,8 @@ import { type BooksRepository } from '@application/repositories/books-repository
 
 import { BookNotFound } from '@application/errors/books/book-not-found'
 
+import { deleteFile } from '@helpers/delete-file'
+
 interface DeleteBookRequest {
   bookId: string
 }
@@ -28,6 +30,10 @@ export class DeleteBook {
 
     if (!book) {
       throw new BookNotFound()
+    }
+
+    if (book.cover) {
+      await deleteFile(`uploads/cover/${book.cover}`)
     }
 
     await this.booksRepository.delete(book)
