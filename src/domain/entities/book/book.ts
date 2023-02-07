@@ -43,6 +43,10 @@ export class Book extends Entity<BookProps> {
     )
   }
 
+  public update(): void {
+    this.props.updatedAt = new Date()
+  }
+
   public get title(): string {
     return this.props.title
   }

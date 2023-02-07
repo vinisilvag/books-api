@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/indent */
 import { Entity } from '@core/domain/entity'
 
 import { type Email } from './value-objects/email'
@@ -9,23 +10,32 @@ export interface UserProps {
   email: Email
   password: string
   avatar: string | null
+  admin: boolean
   createdAt: Date
   updatedAt: Date
 }
 
 export class User extends Entity<UserProps> {
   constructor(
-    props: Replace<UserProps, { createdAt?: Date; updatedAt?: Date }>,
+    props: Replace<
+      UserProps,
+      { createdAt?: Date; updatedAt?: Date; admin?: boolean }
+    >,
     id?: string
   ) {
     super(
       {
         ...props,
+        admin: props.admin ?? false,
         createdAt: props.createdAt ?? new Date(),
         updatedAt: props.updatedAt ?? new Date()
       },
       id
     )
+  }
+
+  public update(): void {
+    this.props.updatedAt = new Date()
   }
 
   public get name(): string {
@@ -58,6 +68,14 @@ export class User extends Entity<UserProps> {
 
   public set avatar(avatar: string | null) {
     this.props.avatar = avatar
+  }
+
+  public get admin(): boolean {
+    return this.props.admin
+  }
+
+  public set admin(admin: boolean) {
+    this.props.admin = admin
   }
 
   public get createdAt(): Date {
