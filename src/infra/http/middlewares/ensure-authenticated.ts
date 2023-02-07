@@ -5,7 +5,7 @@ import {
 } from 'fastify'
 
 import { verify } from 'jsonwebtoken'
-import { SECRET } from '@config/auth'
+import { SECRET } from '@config/env/auth'
 
 import { MissingJwt } from '@application/errors/sessions/missing-jwt'
 import { InvalidJwt } from '@application/errors/sessions/invalid-jwt'

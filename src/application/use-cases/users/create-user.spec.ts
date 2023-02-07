@@ -16,7 +16,8 @@ describe('Create User', () => {
     const { user } = await createUser.execute({
       name: faker.name.fullName(),
       email: faker.internet.email(),
-      password: faker.internet.password()
+      password: faker.internet.password(),
+      avatar: null
     })
 
     expect(user).toBeTruthy()
@@ -32,14 +33,16 @@ describe('Create User', () => {
     await createUser.execute({
       name: faker.name.fullName(),
       email: 'fake@mail.com',
-      password: faker.internet.password()
+      password: faker.internet.password(),
+      avatar: null
     })
 
     await expect(
       createUser.execute({
         name: faker.name.fullName(),
         email: 'fake@mail.com',
-        password: faker.internet.password()
+        password: faker.internet.password(),
+        avatar: null
       })
     ).rejects.toThrow()
   })

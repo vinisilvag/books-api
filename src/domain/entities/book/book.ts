@@ -11,7 +11,7 @@ export interface BookProps {
   title: string
   slug: string
   author: string
-  cover: string
+  cover: string | null
   publishingCompany: string
   publishingYear: number
   numberOfPages: number
@@ -61,11 +61,11 @@ export class Book extends Entity<BookProps> {
     this.props.author = author
   }
 
-  public get cover(): string {
+  public get cover(): string | null {
     return this.props.cover
   }
 
-  public set cover(cover: string) {
+  public set cover(cover: string | null) {
     this.props.cover = cover
   }
 

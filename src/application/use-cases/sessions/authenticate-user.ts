@@ -8,7 +8,7 @@ import { UserNotFound } from '@application/errors/users/user-not-found'
 
 import { compare } from 'bcrypt'
 import { sign } from 'jsonwebtoken'
-import { SECRET } from '@config/auth'
+import { SECRET } from '@config/env/auth'
 
 import { InvalidCredentials } from '@application/errors/sessions/invalid-credentials'
 

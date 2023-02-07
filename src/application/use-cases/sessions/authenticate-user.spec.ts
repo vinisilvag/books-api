@@ -18,7 +18,8 @@ describe('Authenticate User', () => {
     await createUser.execute({
       name: faker.name.fullName(),
       email: 'fake@mail.com',
-      password: '123456'
+      password: '123456',
+      avatar: null
     })
 
     const { token, user } = await authenticateUser.execute({
@@ -39,7 +40,8 @@ describe('Authenticate User', () => {
     await createUser.execute({
       name: faker.name.fullName(),
       email: 'fake@mail.com',
-      password: '123456'
+      password: '123456',
+      avatar: null
     })
 
     await expect(

@@ -28,22 +28,23 @@ export class BookController {
     return { book: BookViewModel.toHTTP(book) }
   }
 
+  // fix create error
   async create(request: FastifyRequest): Promise<any> {
     const {
       title,
       author,
-      cover,
       publishingCompany,
       publishingYear,
       numberOfPages,
       synopsis
     } = createBookBody.parse(request.body)
+    const cover = request.file.filename
 
     const createBook = container.resolve(CreateBook)
     const { book } = await createBook.execute({
       title,
       author,
-      cover,
+      cover: cover || null,
       publishingCompany,
       publishingYear,
       numberOfPages,

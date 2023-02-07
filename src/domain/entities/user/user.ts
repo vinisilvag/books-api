@@ -8,6 +8,7 @@ export interface UserProps {
   name: string
   email: Email
   password: string
+  avatar: string | null
   createdAt: Date
   updatedAt: Date
 }
@@ -49,6 +50,14 @@ export class User extends Entity<UserProps> {
 
   public set password(password: string) {
     this.props.password = password
+  }
+
+  public get avatar(): string | null {
+    return this.props.avatar
+  }
+
+  public set avatar(avatar: string | null) {
+    this.props.avatar = avatar
   }
 
   public get createdAt(): Date {

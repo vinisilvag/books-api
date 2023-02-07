@@ -21,7 +21,7 @@ export class BookViewModel {
       title: book.title,
       slug: book.slug,
       author: book.author,
-      cover: book.cover,
+      cover: `http://localhost:3333/uploads/cover/${book.cover}`,
       publishingCompany: book.publishingCompany,
       publishingYear: book.publishingYear,
       numberOfPages: book.numberOfPages,

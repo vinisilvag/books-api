@@ -7,10 +7,13 @@ import Fastify, { type FastifyInstance } from 'fastify'
 
 import fastifyCors from '@fastify/cors'
 
-import { PORT } from '@config/app'
+import { PORT } from '@config/env/app'
 
 import { appRoutes } from '@infra/http/routes'
 import { errorHandler } from '@infra/http/middlewares/error-handler'
+import { serveStaticFiles } from '@infra/http/middlewares/serve-static-files'
+
+import multer from 'fastify-multer'
 
 async function bootstrap(): Promise<void> {
   const app: FastifyInstance = Fastify({})
@@ -19,6 +22,9 @@ async function bootstrap(): Promise<void> {
   app.register(fastifyCors)
 
   app.setErrorHandler(errorHandler)
+  app.register(serveStaticFiles)
+
+  app.register(multer.contentParser)
 
   app.register(appRoutes, {
     prefix: '/api/v1'

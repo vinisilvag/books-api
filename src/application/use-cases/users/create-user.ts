@@ -14,6 +14,7 @@ interface CreateUserRequest {
   name: string
   email: string
   password: string
+  avatar: string | null
 }
 
 interface CreateUserResponse {
@@ -30,7 +31,7 @@ export class CreateUser {
   ) {}
 
   async execute(request: CreateUserRequest): Promise<CreateUserResponse> {
-    const { name, email, password } = request
+    const { name, email, password, avatar } = request
 
     const userExists = await this.usersRepository.findByEmail(email)
 
@@ -43,7 +44,8 @@ export class CreateUser {
     const user = new User({
       name,
       email: new Email(email),
-      password: hashedPassword
+      password: hashedPassword,
+      avatar
     })
 
     await this.usersRepository.create(user)

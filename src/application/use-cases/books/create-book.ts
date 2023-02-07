@@ -12,7 +12,7 @@ import { Slugify } from '@helpers/slugify'
 interface CreateBookRequest {
   title: string
   author: string
-  cover: string
+  cover: string | null
   publishingCompany: string
   publishingYear: number
   numberOfPages: number

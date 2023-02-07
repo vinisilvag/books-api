@@ -10,7 +10,8 @@ describe('User', () => {
     const user = new User({
       name: faker.name.fullName(),
       email: new Email(faker.internet.email()),
-      password: faker.internet.password()
+      password: faker.internet.password(),
+      avatar: null
     })
 
     expect(user).toBeTruthy()

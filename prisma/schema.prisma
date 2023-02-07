@@ -12,6 +12,7 @@ model User {
   name      String
   email     String
   password  String
+  avatar    String?
   createdAt DateTime @map("created_at")
   updatedAt DateTime @map("updated_at")
 
@@ -24,7 +25,7 @@ model Book {
   title             String
   slug              String
   author            String
-  cover             String
+  cover             String?
   publishingCompany String   @map("publishing_company")
   publishingYear    Int      @map("publishing_year")
   numberOfPages     Int      @map("number_of_pages")
