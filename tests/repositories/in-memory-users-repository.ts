@@ -33,7 +33,8 @@ export class InMemoryUsersRepository implements UsersRepository {
   }
 
   async delete(user: User): Promise<void> {
-    const leftUsers = this.users.filter(item => item.id !== user.id)
-    this.users = leftUsers
+    const usersLeft = this.users.filter(item => item.id !== user.id)
+
+    this.users = usersLeft
   }
 }

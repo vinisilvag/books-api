@@ -19,5 +19,6 @@ bookRoutes.post(
   [ensureAuthenticated, uploadCover.single('cover')],
   bookController.create
 )
+bookRoutes.delete('/:bookId', ensureAuthenticated, bookController.delete)
 
 export { bookRoutes }

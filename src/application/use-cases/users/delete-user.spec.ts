@@ -22,6 +22,7 @@ describe('Delete User', () => {
 
     expect(deletedUser).toBeTruthy()
     expect(usersRepository.users).toHaveLength(0)
+    expect(user).toEqual(deletedUser)
   })
 
   it('should not be able to delete a user that does not exists', async () => {

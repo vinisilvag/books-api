@@ -4,12 +4,14 @@ import { type Request, type Response } from 'express'
 
 import { GetBooks } from '@application/use-cases/books/get-books'
 import { ShowBook } from '@application/use-cases/books/show-book'
+import { CreateBook } from '@application/use-cases/books/create-book'
+import { DeleteBook } from '@application/use-cases/books/delete-book'
 
 import { showBookParams } from '../dtos/books/show-book-params'
 import { createBookBody } from '../dtos/books/create-book-body'
+import { deleteBookParams } from '../dtos/books/delete-book-params'
 
 import { BookViewModel } from '../view-models/book-view-model'
-import { CreateBook } from '@application/use-cases/books/create-book'
 
 export class BookController {
   async index(request: Request, response: Response): Promise<any> {
@@ -57,5 +59,16 @@ export class BookController {
     })
 
     return response.status(201).json({ book: BookViewModel.toHTTP(book) })
+  }
+
+  async delete(request: Request, response: Response): Promise<any> {
+    const { bookId } = deleteBookParams.parse(request.params)
+
+    const deleteBook = container.resolve(DeleteBook)
+    const { book } = await deleteBook.execute({
+      bookId
+    })
+
+    return response.status(200).json({ book: BookViewModel.toHTTP(book) })
   }
 }
