@@ -4,6 +4,8 @@ import { Email } from '@domain/entities/user/value-objects/email'
 
 import { type User as RawUser } from '@prisma/client'
 
+import { UserRoles } from '@core/enums/user-roles'
+
 export class PrismaUserMapper {
   static toPrisma(user: User): RawUser {
     return {
@@ -12,7 +14,7 @@ export class PrismaUserMapper {
       email: user.email.value,
       password: user.password,
       avatar: user.avatar,
-      admin: user.admin,
+      role: user.role,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt
     }
@@ -25,7 +27,7 @@ export class PrismaUserMapper {
         email: new Email(raw.email),
         password: raw.password,
         avatar: raw.avatar,
-        admin: raw.admin,
+        role: UserRoles[raw.role],
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt
       },

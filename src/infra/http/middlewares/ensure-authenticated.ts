@@ -10,7 +10,7 @@ interface TokenPayload {
   iat: number
   exp: number
   uid: string
-  admin: boolean
+  role: string
 }
 
 export async function ensureAuthenticated(
@@ -28,11 +28,11 @@ export async function ensureAuthenticated(
 
   try {
     const decoded = verify(token, SECRET)
-    const { uid, admin } = decoded as TokenPayload
+    const { uid, role } = decoded as TokenPayload
 
     request.user = {
       uid,
-      admin
+      role
     }
 
     next()

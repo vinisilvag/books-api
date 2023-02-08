@@ -5,12 +5,14 @@ import { type Email } from './value-objects/email'
 
 import { type Replace } from '@core/logic/replace'
 
+import { UserRoles } from '@core/enums/user-roles'
+
 export interface UserProps {
   name: string
   email: Email
   password: string
   avatar: string | null
-  admin: boolean
+  role: UserRoles
   createdAt: Date
   updatedAt: Date
 }
@@ -19,14 +21,14 @@ export class User extends Entity<UserProps> {
   constructor(
     props: Replace<
       UserProps,
-      { createdAt?: Date; updatedAt?: Date; admin?: boolean }
+      { createdAt?: Date; updatedAt?: Date; role?: UserRoles }
     >,
     id?: string
   ) {
     super(
       {
         ...props,
-        admin: props.admin ?? false,
+        role: props.role ?? UserRoles.USER,
         createdAt: props.createdAt ?? new Date(),
         updatedAt: props.updatedAt ?? new Date()
       },
@@ -70,12 +72,12 @@ export class User extends Entity<UserProps> {
     this.props.avatar = avatar
   }
 
-  public get admin(): boolean {
-    return this.props.admin
+  public get role(): UserRoles {
+    return this.props.role
   }
 
-  public set admin(admin: boolean) {
-    this.props.admin = admin
+  public set role(role: UserRoles) {
+    this.props.role = role
   }
 
   public get createdAt(): Date {

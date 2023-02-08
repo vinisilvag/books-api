@@ -46,7 +46,7 @@ export class AuthenticateUser {
       throw new InvalidCredentials()
     }
 
-    const token = sign({ uid: user.id, admin: user.admin }, SECRET, {
+    const token = sign({ uid: user.id, role: user.role }, SECRET, {
       expiresIn: '1d'
     })
 

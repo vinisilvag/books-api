@@ -1,16 +1,17 @@
-import { InsufficientPermissions } from '@application/errors/sessions/insufficient-permissions'
 import { type Request, type Response, type NextFunction } from 'express'
 
-export async function ensureAuthorizated(
-  request: Request,
-  response: Response,
-  next: NextFunction
-): Promise<void> {
-  const { user } = request
+import { InsufficientPermissions } from '@application/errors/sessions/insufficient-permissions'
 
-  if (!user.admin) {
-    throw new InsufficientPermissions()
+import { UserRoles } from '@core/enums/user-roles'
+
+export function ensureAuthorizated(role: UserRoles = UserRoles.ADMIN) {
+  return (request: Request, response: Response, next: NextFunction): void => {
+    const { user } = request
+
+    if (user.role !== role) {
+      throw new InsufficientPermissions()
+    }
+
+    next()
   }
-
-  next()
 }
