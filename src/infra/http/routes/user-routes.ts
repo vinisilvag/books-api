@@ -20,7 +20,7 @@ userRoutes.patch(
 )
 userRoutes.patch(
   '/avatar/remove',
-  [ensureAuthenticated, uploadAvatar.single('avatar')],
+  ensureAuthenticated,
   userController.removeAvatar
 )
 userRoutes.delete('/', ensureAuthenticated, userController.delete)

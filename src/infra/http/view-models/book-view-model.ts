@@ -5,7 +5,7 @@ interface HTTPBook {
   title: string
   slug: string
   author: string
-  cover: string
+  cover: string | null
   publishingCompany: string
   publishingYear: number
   numberOfPages: number
@@ -21,7 +21,9 @@ export class BookViewModel {
       title: book.title,
       slug: book.slug,
       author: book.author,
-      cover: `http://localhost:3333/uploads/cover/${book.cover}`,
+      cover: book.cover
+        ? `http://localhost:3333/uploads/cover/${book.cover}`
+        : null,
       publishingCompany: book.publishingCompany,
       publishingYear: book.publishingYear,
       numberOfPages: book.numberOfPages,
